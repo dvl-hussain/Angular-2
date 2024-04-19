@@ -1,0 +1,25 @@
+@if (userList.length > 0) {
+  <h2>Employees</h2>
+  @for (item of userList; track item.name; let index = $index) {
+    @switch (item.gender) {
+
+      @case ( 'male' ) {
+        <ul #orderList>
+          <li #listItem>
+        <span>{{'Name: '}}{{item.name}} {{'Age: '}} {{item.age}} {{'Gender:'}} {{item.gender | titlecase}} {{'Salary:'}} {{item.salary | currency:'JPY'}} {{'Date:'}} {{item.joining | date:'medium'}} </span>
+          </li>
+        </ul>
+      }
+      @case ('female') {
+        <ul>
+          <li>
+        <span>{{'Name: '}}{{item.name}} {{'Age: '}} {{item.age}} {{'Gender:'}} {{item.gender | titlecase}} {{'Salary:'}} {{item.salary | currency:'INR'}}</span>
+          </li>
+        </ul>
+      }
+
+    }
+}
+}@else {
+  <h3>Record not found</h3>
+}
