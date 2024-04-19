@@ -1,26 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ControlFlowsComponent } from './Components/control-flows/control-flows.component';
-import { ParentComponent } from './Components/Decorator/parent/parent.component';
 import { FormsModule } from '@angular/forms';
 import { CustomDirective } from './Directive/custom.directive';
-import { ChildComponent } from './Components/Decorator/child/child.component';
+import { TemplateProjectionComponent } from './template-projection/template-projection.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,ControlFlowsComponent,ParentComponent,FormsModule,CustomDirective],
+  imports: [RouterOutlet,FormsModule,CustomDirective,TemplateProjectionComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   prop:string = ''
-
-  @ViewChild(ParentComponent)parentCompo!:ParentComponent;
-  @ViewChild(ChildComponent)childCompo!:ChildComponent;
-
-  showInfo(){
-   console.log(this.parentCompo.userList);
-   console.log(this.childCompo.consoleData());
-  }
 }
