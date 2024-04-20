@@ -1,7 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChildComponent } from '../child/child.component';
 import { CommonModule } from '@angular/common';
 import { USERS } from '../../../Common/users';
+import { User } from '../../../Common/user-interface';
 
 @Component({
   selector: 'app-parent',
@@ -18,7 +19,8 @@ export class ParentComponent implements OnInit {
   score: number = 50;
   @ViewChild('accessChild')
   childCom!: ChildComponent;
-  userList = USERS;
+  // userList = USERS;
+  @Input({required:true})userList!:User[]
 
   constructor(){
 

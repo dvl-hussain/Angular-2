@@ -5,6 +5,8 @@ import { ParentComponent } from './Components/Decorator/parent/parent.component'
 import { FormsModule } from '@angular/forms';
 import { CustomDirective } from './Directive/custom.directive';
 import { ChildComponent } from './Components/Decorator/child/child.component';
+import { USERS } from './Common/users';
+import { User } from './Common/user-interface';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +20,12 @@ export class AppComponent {
 
   @ViewChild(ParentComponent)parentCompo!:ParentComponent;
   @ViewChild(ChildComponent)childCompo!:ChildComponent;
+  userListData:User[] = USERS;
 
   showInfo(){
    console.log(this.parentCompo.userList);
    console.log(this.childCompo.consoleData());
+   this.userListData.push({ "name": "lean", "age": 40, "gender": "male", "salary": 70000, "joining": "2023-02-18" });
+   console.log(this.userListData)
   }
 }
