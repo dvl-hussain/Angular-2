@@ -1,5 +1,4 @@
-div { padding: 10px; cursor: pointer; }
-
-.heading_1{
+h1{
   background-color: red;
+  padding: 20px;
 }
