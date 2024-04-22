@@ -1,18 +1,20 @@
 <h1>App Component</h1>
 <!-- <app-parent></app-parent> -->
+<h3 *appCustomStructural ='condition' >Show Some Content</h3>
+<h3 *appCustomStructural ='!condition' >Hide Some Content</h3>
 
-<h3 [appHighlightColor] = highLightText> Highlight the color</h3>
+<hr>
+<h3 [appHighlightColor] ="highLightText" defaultColor="violet"> Highlight the color</h3>
 <input type="color" [(ngModel)]="highLightText">
-
-
+<hr>
 @if(colorArray.length > 0){
   @for( colors of colorArray;track colors.name ){
     @switch(colors.color){
       @case('red'){
-        <h2 [appHighlightColor] = colors.color [ngClass]="colors.isPrimary?'bg_color':''"  > {{colors.name}}</h2>
+        <h2 [appHighlightColor] = "colors.color" [ngClass]="colors.isPrimary?'bg_color':''"  > {{colors.name}}</h2>
       }
       @default{
-        <h2 [appHighlightColor] = colors.color [ngStyle]="styleObject" > {{colors.name}}</h2>
+        <h2 [appHighlightColor] = "colors.color" [ngStyle]="styleObject" > {{colors.name}}</h2>
       }
     }
 

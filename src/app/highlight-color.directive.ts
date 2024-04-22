@@ -7,16 +7,18 @@ import { Directive, ElementRef, HostListener, Input, OnChanges, Renderer2, Simpl
 export class HighlightColorDirective implements OnChanges {
 
   @Input({required:true})
-  appHighlightColor!:string
+  appHighlightColor!:string;
+   @Input()
+   defaultColor!:string
   constructor(private el:ElementRef,private renderer : Renderer2) {
 
    }
   ngOnChanges(): void {
-    this.el.nativeElement.style.color = this.appHighlightColor;
+    this.el.nativeElement.style.color = 'black';
   }
 
   @HostListener('mouseenter') onMouseEnter() {
-    this.highlight('yellow','10px');
+    this.highlight(this.appHighlightColor || this.defaultColor,'10px');
   }
 
   @HostListener('mouseleave') onMouseLeave() {
@@ -24,7 +26,6 @@ export class HighlightColorDirective implements OnChanges {
   }
 
   private highlight(color: string,padding:string) {
-    // console.log(this.el.nativeElement)
     this.el.nativeElement.style.backgroundColor = color;
     this.renderer.setStyle(this.el.nativeElement, 'padding', padding);
 
