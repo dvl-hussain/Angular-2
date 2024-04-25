@@ -1,60 +1,47 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {Component, InjectionToken, Optional} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ParentComponent } from './parent/parent.component';
+import { DependencyService } from './dependency.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { ChildComponent } from './child/child.component';
+import { CourseCardComponent } from './course-card/course-card.component';
+import { LoggerService } from './logger.service';
+
+function dependencyServiceProviderFactory(http:HttpClient): DependencyService {
+  return new DependencyService(http);
+}
+const DEPENDENCY_SERVICE_TOKEN = new InjectionToken<DependencyService>("DEPENDENCY_SERVICE_TOKEN");
+// useFactory:dependencyServiceProviderFactory,
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,FormsModule,ParentComponent],
+  imports: [RouterOutlet,FormsModule,CommonModule,HttpClientModule,CourseCardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  encapsulation:ViewEncapsulation.Emulated
+  // providers:[{
+  //   provide:DEPENDENCY_SERVICE_TOKEN,
+  //   useFactory:dependencyServiceProviderFactory,
+  //   deps:[HttpClient]
+  // }]
+  // providers:[{
+  //   provide:DependencyService,
+  //   useClass:DependencyService,
+  //   deps:[HttpClient]
+  // }],
+  providers:[DependencyService,{
+    provide:LoggerService,
+    useClass:LoggerService
+  }]
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent  {
+    // Using Factory function
+  // constructor(@Inject(DEPENDENCY_SERVICE_TOKEN)  private dependSrv: DependencyService){ console.log('provider Factory Function')}
+  constructor(private dependSrv: DependencyService){
+    // if(this.dependSrv){
+    //   console.log('App component',this.dependSrv.id)
+    // }
 
-  prop:string = 'sending';
-
-
-
-  @ViewChild(ParentComponent)parent!:ParentComponent;
-  @ViewChild('parentReference',{read:ElementRef})parent_2!:ElementRef;
-  @ViewChild('title')
-  title!: ElementRef;
-   reg = new RegExp(/[a-zA-Z]+/g)
-   text = "how's life is 35going on?";
-
-  ngAfterViewInit(): void {
-    this.parent.log();
-    console.log(this.parent_2.nativeElement)
-    this.parent_2.nativeElement.style.color = 'green'
-    this.title.nativeElement.style.color = 'blue'
-    console.log("title:",  this.title.nativeElement);
-    this.outputString()
   }
-
-  inputValue:string = "how's life is Going on?"
-  inputValue2:string = "how's life is 1 3 45 going on?"
-  outputString(){
-    const splitValue = this.inputValue.split(" ");
-     splitValue.forEach((el,index)=> {
-        if(splitValue[index] === 'on?'){
-           splitValue[index] = 'on';
-        }
-     })
-    // console.log(this.inputValue2)
-    console.log(this.inputValue2.match(/\S+/g))
-      console.log(this.splitText(this.text,this.reg))
-  }
-
-
- splitText(text: string, pattern:any)  {
-    if (!text) {
-        return null
-    }
-    return text.match(pattern)
-}
-
-
-
 
 }
