@@ -1,47 +1,72 @@
-import {Component, InjectionToken, Optional} from '@angular/core';
+import {Component, Inject, InjectionToken, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { DependencyService } from './dependency.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ChildComponent } from './child/child.component';
-import { CourseCardComponent } from './course-card/course-card.component';
-import { LoggerService } from './logger.service';
+import { AuthenticationService } from './Services/authentication.service';
+import { FakeAuthenticationService } from './Services/fake-authentication.service';
+import { HeaderComponent } from './header/header.component';
+import { ShortNamePipe } from './Pipes/short-name.pipe';
+import { TruncatePipe } from './Pipes/truncate.pipe';
 
-function dependencyServiceProviderFactory(http:HttpClient): DependencyService {
-  return new DependencyService(http);
-}
-const DEPENDENCY_SERVICE_TOKEN = new InjectionToken<DependencyService>("DEPENDENCY_SERVICE_TOKEN");
-// useFactory:dependencyServiceProviderFactory,
+
+ const APP_CONFIG = Object.freeze({
+    name:'Tom',
+    age:29
+ })
+
+ export const APP_CONFIG_TOKEN = new InjectionToken<any>('app_Config')
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,FormsModule,CommonModule,HttpClientModule,CourseCardComponent],
+  imports: [RouterOutlet,CommonModule,HeaderComponent,ShortNamePipe,TruncatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  // providers:[{
-  //   provide:DEPENDENCY_SERVICE_TOKEN,
-  //   useFactory:dependencyServiceProviderFactory,
-  //   deps:[HttpClient]
-  // }]
-  // providers:[{
-  //   provide:DependencyService,
-  //   useClass:DependencyService,
-  //   deps:[HttpClient]
-  // }],
-  providers:[DependencyService,{
-    provide:LoggerService,
-    useClass:LoggerService
-  }]
+
+  providers:[
+    {
+    provide:AuthenticationService,
+    useClass:AuthenticationService
+    },
+    {
+    provide:FakeAuthenticationService,
+    useExisting:AuthenticationService
+    },
+    // {
+    // provide:'APP_CONFIG',
+    // useValue:APP_CONFIG
+    // },
+    {
+    provide:APP_CONFIG_TOKEN,
+    useValue:APP_CONFIG
+    },
+    {
+    provide:'APP_Factory',
+    useValue:false
+    },
+    {
+      provide:AuthenticationService,
+      useFactory:(isTest:boolean)=> isTest ? new FakeAuthenticationService : new AuthenticationService,
+      deps:['APP_Factory']
+      }
+ ]
 })
-export class AppComponent  {
-    // Using Factory function
-  // constructor(@Inject(DEPENDENCY_SERVICE_TOKEN)  private dependSrv: DependencyService){ console.log('provider Factory Function')}
-  constructor(private dependSrv: DependencyService){
-    // if(this.dependSrv){
-    //   console.log('App component',this.dependSrv.id)
-    // }
+export class AppComponent implements OnInit {
+
+     constructor(private authService:AuthenticationService,
+      //  @Inject('APP_CONFIG') app_Config:any
+       @Inject(APP_CONFIG_TOKEN) app_UseValue:any
+      ){
+      console.log(app_UseValue)
+     }
+  ngOnInit(): void {
+    this.authService.inti();
 
   }
+
+  printResult(){
+    console.log(this.authService.isLoggedIn);
+    console.log('print Count',this.authService.count);
+  }
+
+
 
 }
