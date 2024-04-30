@@ -1,72 +1,55 @@
-import {Component, Inject, InjectionToken, OnInit} from '@angular/core';
+import { Component, Inject, InjectionToken, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthenticationService } from './Services/authentication.service';
-import { FakeAuthenticationService } from './Services/fake-authentication.service';
-import { HeaderComponent } from './header/header.component';
 import { ShortNamePipe } from './Pipes/short-name.pipe';
 import { TruncatePipe } from './Pipes/truncate.pipe';
-
-
- const APP_CONFIG = Object.freeze({
-    name:'Tom',
-    age:29
- })
-
- export const APP_CONFIG_TOKEN = new InjectionToken<any>('app_Config')
+import { LoginComponent } from './login/login.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { createDateRangeValidator } from './date-range';
+import { confirmNameValidator } from './confirm-name';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,CommonModule,HeaderComponent,ShortNamePipe,TruncatePipe],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    ShortNamePipe,
+    TruncatePipe,
+    LoginComponent,
+    ReactiveFormsModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
-  providers:[
-    {
-    provide:AuthenticationService,
-    useClass:AuthenticationService
-    },
-    {
-    provide:FakeAuthenticationService,
-    useExisting:AuthenticationService
-    },
-    // {
-    // provide:'APP_CONFIG',
-    // useValue:APP_CONFIG
-    // },
-    {
-    provide:APP_CONFIG_TOKEN,
-    useValue:APP_CONFIG
-    },
-    {
-    provide:'APP_Factory',
-    useValue:false
-    },
-    {
-      provide:AuthenticationService,
-      useFactory:(isTest:boolean)=> isTest ? new FakeAuthenticationService : new AuthenticationService,
-      deps:['APP_Factory']
-      }
- ]
+  providers: [],
 })
 export class AppComponent implements OnInit {
-
-     constructor(private authService:AuthenticationService,
-      //  @Inject('APP_CONFIG') app_Config:any
-       @Inject(APP_CONFIG_TOKEN) app_UseValue:any
-      ){
-      console.log(app_UseValue)
-     }
+  form:FormGroup = new FormGroup({});
+  userForm:FormGroup = new FormGroup({});
+  startDate = new Date();
+  endDate = new Date();
+  constructor(private fb: FormBuilder) {}
   ngOnInit(): void {
-    this.authService.inti();
+    this.form = this.fb.group(
+      {
+        startAt: [null, Validators.required],
+        endAt: [null, Validators.required],
+      },
+
+    );
+    this.userForm = this.fb.group({
+      name:[null,Validators.required],
+      confirmName:[null,Validators.required]
+    })
+
+    this.form.setValidators(createDateRangeValidator());
+    this.userForm.setValidators(confirmNameValidator())
 
   }
 
-  printResult(){
-    console.log(this.authService.isLoggedIn);
-    console.log('print Count',this.authService.count);
+
+  submitForm(){
+    console.log(this.form.value)
   }
-
-
 
 }

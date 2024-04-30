@@ -1,11 +1,34 @@
-<h1>App Component</h1>
-<app-header></app-header>
-<button (click)="printResult()">
-  Print Login Result
-</button>
+<app-login></app-login>
 
-<h1>{{'Hussain Shah' | shortName}}</h1>
-<h1>{{'It was the best of times' | truncate:3:'...'}}</h1>
+
+<form [formGroup]="form">
+
+  <input placeholder="Start date" formControlName="startAt" type="date">
+
+  <input placeholder="End date" formControlName="endAt" type="date">
+  <div class="field-message" *ngIf="form.errors?.['dateRange']">
+    Start date should not be greater end Date
+</div>
+
+  <button [disabled]="form.invalid" (click)="submitForm()">Get Date</button>
+
+</form>
+
+
+<hr>
+<form [formGroup]="userForm">
+
+  <input placeholder="Name" formControlName="name" type="text">
+  <input placeholder="Confirm Name" formControlName="confirmName" type="text">
+
+
+  <div class="field-message" *ngIf="userForm.errors?.['nameMismatch']">
+    Start date should not be greater end Date
+</div>
+
+  <button [disabled]="userForm.invalid" (click)="submitForm()">Submit</button>
+
+</form>
 
 
 
