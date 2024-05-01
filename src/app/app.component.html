@@ -1,34 +1,13 @@
-<app-login></app-login>
+<h1>App Component</h1>
 
 
-<form [formGroup]="form">
-
-  <input placeholder="Start date" formControlName="startAt" type="date">
-
-  <input placeholder="End date" formControlName="endAt" type="date">
-  <div class="field-message" *ngIf="form.errors?.['dateRange']">
-    Start date should not be greater end Date
+<div [formGroup]="form">
+  <app-custom-input formControlName="name" [placeholder]="'Enter value'"></app-custom-input>
+  <app-quantity  [increment]="20" formControlName="totalQuantity"></app-quantity>
+  <div class="field-message" *ngIf="totalQuantity.errors?.['mustBePositive'] ">
+    negative number is not allowed
 </div>
+<div *ngIf="totalQuantity.errors?.['max'] ">max number is 100.</div>
 
-  <button [disabled]="form.invalid" (click)="submitForm()">Get Date</button>
-
-</form>
-
-
-<hr>
-<form [formGroup]="userForm">
-
-  <input placeholder="Name" formControlName="name" type="text">
-  <input placeholder="Confirm Name" formControlName="confirmName" type="text">
-
-
-  <div class="field-message" *ngIf="userForm.errors?.['nameMismatch']">
-    Start date should not be greater end Date
+ <button (click)="saveForm()" >submit</button>
 </div>
-
-  <button [disabled]="userForm.invalid" (click)="submitForm()">Submit</button>
-
-</form>
-
-
-
