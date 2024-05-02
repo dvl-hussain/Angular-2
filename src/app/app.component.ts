@@ -23,7 +23,10 @@ export class AppComponent implements OnInit {
 
   form = this.fb.group({
     totalQuantity: [50, [Validators.required, Validators.max(100)]],
-    name:[null,[Validators.required]]
+    name:[null,[Validators.required]],
+    age:[null,[Validators.required]],
+    email:[null,[Validators.required]],
+    password:[null,[Validators.required]],
   });
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {}
