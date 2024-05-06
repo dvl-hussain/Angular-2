@@ -1,42 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { QuantityComponent } from './quantity/quantity.component';
-import { CustomInputComponent } from './custom-input/custom-input.component';
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
     CommonModule,
-    ReactiveFormsModule,
-    QuantityComponent,
-    CustomInputComponent
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
   providers: [],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit  {
+  a = 1;
+  b = 2;
+  c = 3;
 
-  form = this.fb.group({
-    totalQuantity: [50, [Validators.required, Validators.max(100)]],
-    name:[null,[Validators.required]],
-    age:[null,[Validators.required]],
-    email:[null,[Validators.required]],
-    password:[null,[Validators.required]],
-  });
-  constructor(private fb: FormBuilder) {}
-  ngOnInit(): void {}
-
-  saveForm(){
-    console.log(this.form)
-
+  ngOnInit(): void {
+       this.a = this.b;
+       this.b = this.c;
+       this.c = this.a
+       console.log( this.a,this.b,this.c)
   }
 
-  get totalQuantity() {
-    return this.form.controls['totalQuantity'];
-}
+
 }

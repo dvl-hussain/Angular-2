@@ -1,33 +1,15 @@
-<!-- <h1>App Component</h1> -->
+<h2>App Component</h2>
 
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-
-  <div style="
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-   border: 1px solid #ccc;
-   width: 400px;
-   height:  400px;
-   padding:20px;
-   gap: 10px;
-
-  "
-   [formGroup]="form">
-    <app-custom-input formControlName="name" [placeholder]="'Name'" [type]="'text'"></app-custom-input>
-
-    <app-custom-input formControlName="age" [placeholder]="'Age'" [type]="'number'"></app-custom-input>
-
-    <app-custom-input formControlName="email" [placeholder]="'Email'" [type]="'email'"></app-custom-input>
-
-    <app-custom-input formControlName="password" [placeholder]="'password'" [type]="'password'"></app-custom-input>
-
-    <app-quantity  [increment]="20" formControlName="totalQuantity"></app-quantity>
-    <div class="field-message" *ngIf="totalQuantity.errors?.['mustBePositive'] ">
-      negative number is not allowed
-  </div>
-  <div *ngIf="totalQuantity.errors?.['max'] ">max number is 100.</div>
-   <button (click)="saveForm()" >submit</button>
-  </div>
-</div>
+<ul>
+  <li>
+    <a routerLink="/first-component" routerLinkActive="active">
+      First Component</a
+    >
+  </li>
+  <li>
+    <a routerLink="/second-component" routerLinkActive="active">
+      Second Component</a
+    >
+  </li>
+</ul>
+<router-outlet></router-outlet>
