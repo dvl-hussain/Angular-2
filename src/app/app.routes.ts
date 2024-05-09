@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
-import { FirstComponent } from './first/first.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   {
-    path:'first-component',
-    component:FirstComponent
+    path:'',component:HomeComponent, canActivate:[authGuard]
   },
   {
-    path:'second-component',
-   loadComponent:()=> import('./second/second.component').then((c)=> c.SecondComponent)
+    path:'login', component:LoginComponent
   }
+
 ];

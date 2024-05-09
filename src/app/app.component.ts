@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './auth.service';
+import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -8,24 +10,17 @@ import { CommonModule } from '@angular/common';
     RouterOutlet,
     CommonModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
-  providers: [],
+  providers: [
+  ],
 })
-export class AppComponent implements OnInit  {
-  a = 1;
-  b = 2;
-  c = 3;
+export class AppComponent   {
 
-  ngOnInit(): void {
-       this.a = this.b;
-       this.b = this.c;
-       this.c = this.a
-       console.log( this.a,this.b,this.c)
-  }
+
 
 
 }
