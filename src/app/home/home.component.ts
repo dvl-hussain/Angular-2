@@ -1,32 +1,25 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
   user:any
 
-  constructor(private authSrv:AuthService, private router:Router){
+  constructor(){
 
   }
   ngOnInit(): void {
-
-      // console.log(res)
-      this.authSrv.getAuthUser().subscribe((res:any)=>{
-        console.log(res)
-        this.user = res
-      })
     }
 
 
     logout(){
-      this.authSrv.logOut()
+
     }
 }

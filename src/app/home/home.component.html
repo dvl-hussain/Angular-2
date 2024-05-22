@@ -1,7 +1,12 @@
-<pre>
+<!-- <pre>
   <code>
     {{user | json}}
   </code>
 </pre>
 
-<button (click)="logout()">Logout</button>
+<button (click)="logout()">Logout</button> -->
+<h2>Home component</h2>
+ <a routerLink="/profile" routerLinkActive="active">profile</a>
+ <br>
+ <a routerLink="/account" routerLinkActive="active">account</a>
+<router-outlet></router-outlet>
